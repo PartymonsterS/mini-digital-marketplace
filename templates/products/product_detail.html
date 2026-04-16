@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ product.title }}</h1>
+
+    <p><strong>Category:</strong> {{ product.category.name }}</p>
+    <p><strong>Seller:</strong> {{ product.seller.username }}</p>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+    <p><strong>Short description:</strong> {{ product.short_description }}</p>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+
+    {% if product.preview_image %}
+        <img src="{{ product.preview_image.url }}" alt="{{ product.title }}" width="300">
+    {% endif %}
+
+    <p>
+        <a href="{% url 'products:category_products' product.category.slug %}">
+            Back to category
+        </a>
+    </p>
+{% endblock %}
