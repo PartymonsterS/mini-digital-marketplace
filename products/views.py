@@ -1,5 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView, ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
+
+from .forms import ProductCreateForm
 from .models import Category, Product
 
 
@@ -48,3 +52,27 @@ class ProductDetailView(DetailView):
         return Product.objects.filter(
             status=Product.Status.PUBLISHED
         ).select_related("category", "seller")
+
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    model = Product
+    form_class = ProductCreateForm
+    template_name = "products/product_form.html"
+    success_url = reverse_lazy("products:my_products")
+
+    def form_valid(self, form):
+        form.instance.seller = self.request.user
+        return super().form_valid(form)
+
+
+class MyProductsView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "products/my_products.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return (
+            Product.objects.filter(seller=self.request.user)
+            .select_related("category")
+            .order_by("-created_at")
+        )
