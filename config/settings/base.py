@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "accounts",
     "products",
     "orders",
-    "common",
+    "common"
 ]
 
 MIDDLEWARE = [
@@ -62,8 +62,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME", "marketplace_db"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "postgres"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": os.getenv("DB_HOST", "localhost"),
         "PORT": os.getenv("DB_PORT", "5432"),
     }
@@ -97,3 +97,4 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+AUTH_USER_MODEL = "accounts.User"
