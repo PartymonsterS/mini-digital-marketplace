@@ -47,6 +47,9 @@
                             <a href="{% url 'products:product_update' product.slug %}" class="btn btn-outline-dark">
                                 Edit product
                             </a>
+                            <a href="{% url 'products:product_delete' product.slug %}" class="btn btn-danger">
+                                Delete product
+                            </a>
                         {% endif %}
                     {% else %}
                         <a href="{% url 'login' %}" class="btn btn-primary">Login to buy</a>

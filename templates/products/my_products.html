@@ -24,9 +24,17 @@
                             <p class="mb-1"><strong>Status:</strong> {{ product.status }}</p>
                             <p class="mb-3"><strong>Price:</strong> ${{ product.price }}</p>
 
-                            <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-dark w-100">
-                                View product
-                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-dark w-100">
+                                    View
+                                </a>
+                                <a href="{% url 'products:product_update' product.slug %}" class="btn btn-dark w-100">
+                                    Edit
+                                </a>
+                                <a href="{% url 'products:product_delete' product.slug %}" class="btn btn-danger w-100">
+                                    Delete
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

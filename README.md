@@ -10,7 +10,8 @@ Simple web application built with Django for publishing and browsing digital pro
   - Register, login, logout
 - 📦 **Products**
   - Create products with image upload
-  - Product detail pages
+  - View product detail pages
+  - Edit and delete own products
 - 📂 **Categories**
   - Group products by category
 - 🛒 **Orders**
@@ -102,6 +103,7 @@ python manage.py runserver
 
 ## **Notes**
 
-- Only authenticated users can create products and orders  
-- Each user can order a product only once  
-- Images are stored in the `media/` directory  
+- Only authenticated users can create, edit, and delete their own products
+- Each user can order a product only once
+- Draft products are not shown publicly
+- Images are stored in the media/ directory

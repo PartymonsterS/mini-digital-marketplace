@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import ProductCreateForm, ProductUpdateForm
 from .models import Category, Product
@@ -115,6 +115,14 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         product = self.get_object()
         return product.seller == self.request.user
 
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Product
+    template_name = "products/product_confirm_delete.html"
+    success_url = reverse_lazy("products:my_products")
+
+    def test_func(self):
+        product = self.get_object()
+        return product.seller == self.request.user
 
 
 
