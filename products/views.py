@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
 from .forms import ProductCreateForm
 from .models import Category, Product
-
+from orders.models import Order
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -52,6 +52,22 @@ class ProductDetailView(DetailView):
         return Product.objects.filter(
             status=Product.Status.PUBLISHED
         ).select_related("category", "seller")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        product = self.object
+
+        if user.is_authenticated:
+            context["has_ordered"] = Order.objects.filter(
+                buyer=user,
+                product=product
+            ).exists()
+        else:
+            context["has_ordered"] = False
+
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
