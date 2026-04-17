@@ -3,34 +3,52 @@
 {% block title %}{{ product.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ product.title }}</h1>
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0">
+                {% if product.preview_image %}
+                    <img src="{{ product.preview_image.url }}" alt="{{ product.title }}" class="img-fluid rounded">
+                {% else %}
+                    <div class="p-5 text-center text-muted">No image</div>
+                {% endif %}
+            </div>
+        </div>
 
-    <p><strong>Category:</strong> {{ product.category.name }}</p>
-    <p><strong>Seller:</strong> {{ product.seller.username }}</p>
-    <p><strong>Price:</strong> ${{ product.price }}</p>
-    <p><strong>Short description:</strong> {{ product.short_description }}</p>
-    <p><strong>Description:</strong> {{ product.description }}</p>
+        <div class="col-lg-7">
+            <div class="bg-white p-4 rounded shadow-sm h-100">
+                <h1 class="mb-3">{{ product.title }}</h1>
 
-    {% if product.preview_image %}
-        <img src="{{ product.preview_image.url }}" alt="{{ product.title }}" width="300">
-    {% endif %}
+                <p class="mb-2"><strong>Category:</strong> {{ product.category.name }}</p>
+                <p class="mb-2"><strong>Seller:</strong> {{ product.seller.username }}</p>
+                <p class="mb-3 fs-5"><strong>Price:</strong> ${{ product.price }}</p>
 
-    {% if user.is_authenticated %}
-        {% if has_ordered %}
-            <p>You already ordered this product.</p>
-        {% else %}
-            <form method="post" action="{% url 'orders:create_order' product.slug %}">
-                {% csrf_token %}
-                <button type="submit">Buy</button>
-            </form>
-        {% endif %}
-    {% else %}
-        <p><a href="{% url 'login' %}">Login to buy</a></p>
-    {% endif %}
+                <div class="mb-3">
+                    <h5>Short description</h5>
+                    <p class="text-muted">{{ product.short_description }}</p>
+                </div>
 
-    <p>
-        <a href="{% url 'products:category_products' product.category.slug %}">
-            Back to category
-        </a>
-    </p>
+                <div class="mb-4">
+                    <h5>Description</h5>
+                    <p>{{ product.description }}</p>
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if has_ordered %}
+                        <div class="alert alert-success">You already ordered this product.</div>
+                    {% else %}
+                        <form method="post" action="{% url 'orders:create_order' product.slug %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-dark">Buy</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login to buy</a>
+                {% endif %}
+
+                <a href="{% url 'products:category_products' product.category.slug %}" class="btn btn-outline-secondary mt-3">
+                    Back to category
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

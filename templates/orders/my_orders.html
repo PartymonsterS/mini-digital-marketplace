@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">My Orders</h1>
+
+    {% if orders %}
+        <div class="row g-4">
+            {% for order in orders %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ order.product.title }}</h5>
+                            <p class="mb-2"><strong>Status:</strong> {{ order.status }}</p>
+                            <p class="mb-3"><strong>Date:</strong> {{ order.created_at }}</p>
+
+                            <a href="{% url 'products:product_detail' order.product.slug %}" class="btn btn-outline-dark w-100">
+                                Open product
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-secondary">No orders yet.</div>
+    {% endif %}
+{% endblock %}
