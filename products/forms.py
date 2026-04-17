@@ -16,3 +16,18 @@ class ProductCreateForm(forms.ModelForm):
             "file",
             "status",
         )
+
+
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = (
+            "category",
+            "title",
+            "short_description",
+            "description",
+            "price",
+            "preview_image",
+            "file",
+            "status",
+        )

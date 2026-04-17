@@ -32,22 +32,30 @@
                     <p>{{ product.description }}</p>
                 </div>
 
-                {% if user.is_authenticated %}
-                    {% if has_ordered %}
-                        <div class="alert alert-success">You already ordered this product.</div>
-                    {% else %}
-                        <form method="post" action="{% url 'orders:create_order' product.slug %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-dark">Buy</button>
-                        </form>
-                    {% endif %}
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-primary">Login to buy</a>
-                {% endif %}
+                <div class="d-flex flex-wrap gap-2">
+                    {% if user.is_authenticated %}
+                        {% if has_ordered %}
+                            <div class="alert alert-success mb-0 w-100">You already ordered this product.</div>
+                        {% else %}
+                            <form method="post" action="{% url 'orders:create_order' product.slug %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-dark">Buy</button>
+                            </form>
+                        {% endif %}
 
-                <a href="{% url 'products:category_products' product.category.slug %}" class="btn btn-outline-secondary mt-3">
-                    Back to category
-                </a>
+                        {% if product.seller == user %}
+                            <a href="{% url 'products:product_update' product.slug %}" class="btn btn-outline-dark">
+                                Edit product
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Login to buy</a>
+                    {% endif %}
+
+                    <a href="{% url 'products:category_products' product.category.slug %}" class="btn btn-outline-secondary">
+                        Back to category
+                    </a>
+                </div>
             </div>
         </div>
     </div>
